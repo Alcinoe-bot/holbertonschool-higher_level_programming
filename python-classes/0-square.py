@@ -2,7 +2,7 @@
 """
 module 0-square.py
 
-carré
+classe vide Square qui défini un carré.
 """
 class Square:
     pass
