@@ -4,6 +4,8 @@ module 0-square.py
 
 classe vide Square qui défini un carré.
 """
+
+
 class Square:
     pass
 """
