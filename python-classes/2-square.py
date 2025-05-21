@@ -13,11 +13,8 @@ class Square:
     """
     def __init__(self, size=0):
         """
-        size du carré
-
         vérifie s'il les valeurs sont bien des integer
         ou supérieur à 0 sinon erreur
-
         """
         if (type(size) is not int):
             raise TypeError("size must be an integer")
