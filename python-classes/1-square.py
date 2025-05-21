@@ -8,11 +8,10 @@ attribut size
 
 class Square:
     """
-    créer une classe objet carré
-
+    create square class object
     """
     def __init__(self, size):
         """
-        size du carré
+        size of square
         """
         self.__size = size
