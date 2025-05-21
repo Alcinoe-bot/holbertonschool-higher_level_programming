@@ -1,7 +1,14 @@
 #!/usr/bin/python3
+"""
+module 3-square.py
+
+definees a Square class by its size area
+"""
+
+
 class Square:
     """
-    créer une classe objet carré
+    create square class object
     """
     def __init__(self, size=0):
         """
