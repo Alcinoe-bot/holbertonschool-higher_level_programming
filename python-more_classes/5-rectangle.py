@@ -86,6 +86,5 @@ class Rectangle:
     def __del__(self):
         """
         modifies del object
-        
         """
         print("{}".format("Bye rectangle..."))
