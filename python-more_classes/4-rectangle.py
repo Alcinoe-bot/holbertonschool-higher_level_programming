@@ -79,4 +79,4 @@ class Rectangle:
         """
         modifies repr object
         """
-        return("Rectangle({}, {})".format(self.width, self.height))
+        return ("Rectangle({}, {})".format(self.width, self.height))
