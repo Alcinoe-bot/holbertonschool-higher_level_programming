@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-module 4-rectangle.py
+module 5-rectangle.py
 
 class for rectangle
 """
@@ -82,3 +82,10 @@ class Rectangle:
         visible like informations
         """
         return ("Rectangle({}, {})".format(self.width, self.height))
+
+    def __del__(self):
+        """
+        modifies del object
+        
+        """
+        print("{}".format("Bye rectangle..."))

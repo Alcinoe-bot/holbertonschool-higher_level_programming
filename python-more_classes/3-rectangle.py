@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-module 2-rectangle.py
+module 4-rectangle.py
 
 class for rectangle
 """
@@ -70,6 +70,7 @@ class Rectangle:
     def __str__(self):
         """
         modifies str object
+        visible for humans
         """
         if not self.perimeter():
             return ""
