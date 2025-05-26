@@ -8,4 +8,4 @@ def lookup(obj):
     """
     Returns a list object
     """
-    return ([i for i in dir(obj)])
+    return dir(obj)
