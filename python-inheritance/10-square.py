@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-module 8-rectangle.py
+module 10-rectangle.py
 """
 
 
@@ -33,7 +33,31 @@ class Rectangle(BaseGeometry):
         """
         initialise rectangle
         """
-        self.integer_validator("width", width)
-        self.integer_validator("height", height)
+        super().integer_validator("width", width)
+        super().integer_validator("height", height)
         self.__width = width
         self.__height = height
+
+    def area(self):
+        """
+        area of rectangle
+        """
+        return self.__width * self.__height
+
+    def __str__(self):
+        """
+        string
+        """
+        return "[Rectangle] {}/{}".format(self.__width, self.__height)
+
+class Square(Rectangle):
+    """
+    class Square
+    """
+    def __init__(self, size):
+        """
+        initialise square by size
+        """
+        self.integer_validator("size", size)
+        self.__size = size
+        super().__init__(size, size)
