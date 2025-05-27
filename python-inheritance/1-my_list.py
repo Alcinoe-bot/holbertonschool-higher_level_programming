@@ -6,7 +6,10 @@ class mylist
 
 class MyList(list):
     """
-    print list
+    create class
     """
     def print_sorted(self):
+        """
+        print list
+        """
         print(sorted(self))
