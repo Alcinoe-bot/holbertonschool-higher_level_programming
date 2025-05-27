@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-class mylist
+module 1-my_list.py
 """
 
 
