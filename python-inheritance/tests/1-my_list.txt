@@ -18,3 +18,8 @@
 [2, 3, 4]
 >>> print(l)
 [4, 2, 3]
+>>> l = MyList([5, 1, 3])
+>>> l.print_sorted()
+[1, 3, 5]
+>>> print(l == [5, 1, 3])
+True
