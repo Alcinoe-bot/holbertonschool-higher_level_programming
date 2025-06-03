@@ -10,6 +10,6 @@ def write_file(filename="", text=""):
     """
     lines = 0
     with open(filename, mode='r', encoding='utf-8') as file:
-        for line in f:
+        for line in file:
             lines += 1
     return lines
