@@ -1,5 +1,13 @@
 #!/usr/bin/python3
+"""
+Lists all states from the database hbtn_0e_0_usa
+"""
+import MySQLdb
+import sys
 
+if __name__ == "__main__":
+    "main"
+    main(sys.argv)
 
 def main(args):
     "gets all state stuff"
@@ -14,10 +22,3 @@ def main(args):
     states = cur.fetchall()
     for state in states:
         print(state)
-
-
-if __name__ == "__main__":
-    "main"
-    import sys
-    import MySQLdb
-    main(sys.argv)
