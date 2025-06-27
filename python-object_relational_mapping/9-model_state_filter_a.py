@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""8-model_state_fetch_first.py"""
+"""9-model_state_filter_a.py"""
 import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -18,9 +18,9 @@ if __name__ == "__main__":
     Session = sessionmaker(bind=engine)
     session = Session()
     state = session.query(State).order_by(State.id).first()
-    if state:
-        print("{}: {}".format(state.id, state.name))
-    else:
-        print("Nothing")
 
+    for state in (session.query(State)
+                         .filter(State.name.like('%a%'))
+                         .order_by(State.id)):
+        print("{}: {}".format(state.id, state.name))
     session.close()
