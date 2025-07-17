@@ -44,9 +44,12 @@ def products():
         return render_template("product_display.html", error="Wrong source")
 
     if prod_id:
-        filtered = [p for p in products if str(p["id"]) == prod_id]
+        filtered = [p for p in products if str(p.get("id")) == prod_id]
         if not filtered:
             return render_template("product_display.html", error="Product not found")
         return render_template("product_display.html", products=filtered)
 
     return render_template("product_display.html", products=products)
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
