@@ -31,7 +31,7 @@ def read_csv_data():
     with open("products.csv", newline='') as f:
         return list(csv.DictReader(f))
 
-@app.route('/source')
+@app.route('/products')
 def products():
     source = request.args.get('source')
     prod_id = request.args.get('id')
