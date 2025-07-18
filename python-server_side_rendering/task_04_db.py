@@ -6,6 +6,24 @@ import sqlite3
 
 app = Flask(__name__)
 
+
+def read_sql_data():
+    conn = sqlite3.connect('products.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT id, name, category, price FROM Products')
+    rows = cursor.fetchall()
+    conn.close()
+    products = []
+    for row in rows:
+        products.append({
+            'id': row[0],
+            'name': row[1],
+            'category': row[2],
+            'price': row[3]
+        })
+    return products
+
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -61,22 +79,6 @@ def products():
 
     return render_template('product_display.html', products=products)
 
-
-def read_sql_data():
-    conn = sqlite3.connect('products.db')
-    cursor = conn.cursor()
-    cursor.execute('SELECT id, name, category, price FROM Products')
-    rows = cursor.fetchall()
-    conn.close()
-    products = []
-    for row in rows:
-        products.append({
-            'id': row[0],
-            'name': row[1],
-            'category': row[2],
-            'price': row[3]
-        })
-    return products
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
