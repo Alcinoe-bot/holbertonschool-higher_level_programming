@@ -7,6 +7,17 @@ import sqlite3
 app = Flask(__name__)
 
 
+def read_json_data():
+    with open('products.json', 'r') as f:
+        return json.load(f)
+
+
+def read_csv_data():
+    with open('products.csv', 'r', newline='') as f:
+        reader = csv.DictReader(f)
+        return list(reader)
+
+
 def read_sql_data():
     conn = sqlite3.connect('products.db')
     cursor = conn.cursor()
@@ -16,7 +27,7 @@ def read_sql_data():
     products = []
     for row in rows:
         products.append({
-            'id': row[0],
+            'id': str(row[0]),
             'name': row[1],
             'category': row[2],
             'price': row[3]
@@ -41,8 +52,8 @@ def contact():
 
 @app.route('/items')
 def items():
-    with open('items.json', 'r') as file:
-        items = json.load(file).get('items')
+    with open('items.json', 'r') as f:
+        items = json.load(f).get('items')
     return render_template('items.html', items=items)
 
 
@@ -56,13 +67,10 @@ def products():
 
     try:
         if source == 'json':
-            with open('products.json', 'r') as file:
-                products = json.load(file)
+            products = read_json_data()
 
         elif source == 'csv':
-            with open('products.csv', 'r', newline='') as file:
-                reader = csv.DictReader(file)
-                products = list(reader)
+            products = read_csv_data()
 
         elif source == 'sql':
             products = read_sql_data()
@@ -73,9 +81,10 @@ def products():
         return render_template('product_display.html', error='Database error')
 
     if product_id:
-        products = [p for p in products if str(p.get('id')) == str(product_id)]
-        if not products:
+        filtered = [p for p in products if str(p.get('id', p.get('id'))) == str(product_id) or str(p.get('id')) == str(product_id)]
+        if not filtered:
             return render_template('product_display.html', error='Product not found')
+        products = filtered
 
     return render_template('product_display.html', products=products)
 
