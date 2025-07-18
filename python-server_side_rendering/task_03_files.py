@@ -1,9 +1,7 @@
 #!/usr/bin/python3
-"""
-This is the route of app.
-"""
 from flask import Flask, render_template, request
-import json, csv
+import json
+import csv
 
 app = Flask(__name__)
 
@@ -27,7 +25,7 @@ def contact():
 def items():
     with open('items.json', 'r') as file:
         items = json.load(file).get('items')
-        return render_template('items.html', items=items)
+    return render_template('items.html', items=items)
 
 
 @app.route('/products')
@@ -37,7 +35,7 @@ def products():
 
     if source not in ['json', 'csv']:
         return render_template('product_display.html', error='Wrong source')
-    
+
     try:
         if source == 'json':
             with open('products.json', 'r') as file:
@@ -48,12 +46,15 @@ def products():
                 products = list(reader)
     except FileNotFoundError:
         return render_template('product_display.html', error='File not found')
-    
+
     if product_id:
-        products = [p for p in products if str(p.get('id')) == str(product_id)]
+        products = [
+            p for p in products if str(p.get('id')) == str(product_id)
+        ]
         if not products:
-            return render_template('product_display.html', error='Product not found')
-    
+            return render_template(
+                'product_display.html', error='Product not found')
+
     return render_template('product_display.html', products=products)
 
 
