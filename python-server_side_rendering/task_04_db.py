@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""task4"""
+"""
+Flask app for displaying products from JSON, CSV, or SQL
+"""
 from flask import Flask, render_template, request
 import json
 import csv
@@ -36,19 +38,22 @@ def products():
     product = request.args.get('id')
 
     if source not in ['json', 'csv', 'sql']:
-        return render_template('product_display.html', error='Wrong source')
+        return render_template('product_display.html',
+                               error='Wrong source')
 
     if source == 'json':
         try:
             with open('products.json', 'r') as file:
                 products = json.load(file)
         except FileNotFoundError:
-            return render_template('product_display.html', error='Not file found')
+            return render_template('product_display.html',
+                                   error='Not file found')
 
         if product:
             products = [p for p in products if str(p.get('id')) == product]
             if not products:
-                return render_template('product_display.html', error='Product not found')
+                return render_template('product_display.html',
+                                       error='Product not found')
 
     elif source == 'csv':
         try:
@@ -56,12 +61,14 @@ def products():
                 read = csv.DictReader(f)
                 products = list(read)
         except FileNotFoundError:
-            return render_template('product_display.html', error='Not file found')
+            return render_template('product_display.html',
+                                   error='Not file found')
 
         if product:
             products = [p for p in products if str(p.get('id')) == product]
             if not products:
-                return render_template('product_display.html', error='Product not found')
+                return render_template('product_display.html',
+                                       error='Product not found')
 
     elif source == 'sql':
         try:
@@ -70,19 +77,24 @@ def products():
             cursor = conn.cursor()
 
             if product:
-                cursor.execute('SELECT * FROM Products WHERE id = ?', (product,))
+                cursor.execute('SELECT * FROM Products WHERE id = ?',
+                               (product,))
                 result = cursor.fetchone()
                 if result:
-                    return render_template('product_display.html', products=[result])
+                    return render_template('product_display.html',
+                                           products=[result])
                 else:
-                    return render_template('product_display.html', error='Product not found')
+                    return render_template('product_display.html',
+                                           error='Product not found')
             else:
                 cursor.execute('SELECT * FROM Products')
                 result = cursor.fetchall()
-                return render_template('product_display.html', products=result)
+                return render_template('product_display.html',
+                                       products=result)
 
         except Exception:
-            return render_template('product_display.html', error='Not database found')
+            return render_template('product_display.html',
+                                   error='Not database found')
         finally:
             conn.close()
 
