@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""task4"""
 from flask import Flask, render_template, request
 import json
 import csv
@@ -32,7 +33,7 @@ def items():
 @app.route('/products')
 def products():
     source = request.args.get('source')
-    product_id = request.args.get('id')
+    product = request.args.get('id')
 
     if source not in ['json', 'csv', 'sql']:
         return render_template('product_display.html', error='Wrong source')
@@ -42,8 +43,8 @@ def products():
             with open('products.json', 'r') as file:
                 products = json.load(file)
 
-            if product_id:
-                products = [p for p in products if str(p.get('id')) == product_id]
+            if product:
+                products = [p for p in products if str(p.get('id')) == product]
                 if not products:
                     return render_template('product_display.html', error='Product not found')
 
@@ -52,33 +53,34 @@ def products():
                 reader = csv.DictReader(file)
                 products = list(reader)
 
-            if product_id:
-                products = [p for p in products if str(p.get('id')) == product_id]
+            if product:
+                products = [p for p in products if str(p.get('id')) == product]
                 if not products:
                     return render_template('product_display.html', error='Product not found')
 
         elif source == 'sql':
-            conn = sqlite3.connect('products.db')
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
+            try:
+                conn = sqlite3.connect('products.db')
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
 
-            if product_id:
-                cursor.execute('SELECT * FROM Products WHERE id = ?', (product_id,))
-                row = cursor.fetchone()
-                if row:
-                    products = [row]
+                if product:
+                    cursor.execute('SELECT * FROM Products WHERE id = ?', (product,))
+                    row = cursor.fetchone()
+                    if row:
+                        products = [row]
+                    else:
+                        return render_template('product_display.html', error='Product not found')
                 else:
-                    return render_template('product_display.html', error='Product not found')
-            else:
-                cursor.execute('SELECT * FROM Products')
-                products = cursor.fetchall()
-
-            conn.close()
+                    cursor.execute('SELECT * FROM Products')
+                    products = cursor.fetchall()
+            except sqlite3.Error:
+                return render_template('product_display.html', error='Database error')
+            finally:
+                conn.close()
 
     except FileNotFoundError:
         return render_template('product_display.html', error='File not found')
-    except sqlite3.Error:
-        return render_template('product_display.html', error='Database error')
 
     return render_template('product_display.html', products=products)
 
