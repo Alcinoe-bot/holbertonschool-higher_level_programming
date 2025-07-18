@@ -39,21 +39,19 @@ def products():
     try:
         if source == 'json':
             with open('products.json', 'r') as file:
-                products = json.load(file)["products"]
-        elif source == 'csv':
-            with open('products.csv', 'r', newline='') as f:
-                reader = csv.DictReader(f)
+                products = json.load(file)
+        else:  # source == 'csv'
+            with open('products.csv', 'r', newline='') as file:
+                reader = csv.DictReader(file)
                 products = list(reader)
     except FileNotFoundError:
         return render_template('product_display.html', error='File not found')
 
     if product_id:
-        products = [
-            p for p in products if str(p.get('id')) == str(product_id)
-        ]
-        if not products:
-            return render_template(
-                'product_display.html', error='Product not found')
+        filtered = [p for p in products if str(p.get('id')) == str(product_id)]
+        if not filtered:
+            return render_template('product_display.html', error='Product not found')
+        products = filtered
 
     return render_template('product_display.html', products=products)
 
